@@ -1,0 +1,26 @@
+﻿version: "3.9"
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: engine_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: engine_postgres
+    environment:
+      POSTGRES_DB: web_engine
+      POSTGRES_USER: engine_user
+      POSTGRES_PASSWORD: engine_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  redis_data:
+  postgres_data:
